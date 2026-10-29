@@ -16,4 +16,14 @@ double lateral_force(const PacejkaCoefficients& c, double slip_angle,
     return normal_load * pacejka_normalized(c, slip_angle);
 }
 
+TireForce combined_slip_force(const PacejkaCoefficients& c, double kappa, double tan_alpha,
+                              double normal_load) noexcept {
+    const double sigma = std::hypot(kappa, tan_alpha);
+    if (sigma < 1e-12 || normal_load <= 0.0) {
+        return {};
+    }
+    const double magnitude = normal_load * pacejka_normalized(c, sigma);
+    return {magnitude * kappa / sigma, -magnitude * tan_alpha / sigma};
+}
+
 } // namespace openapex::sim

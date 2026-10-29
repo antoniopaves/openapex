@@ -38,3 +38,30 @@ TEST_CASE("La fuerza es proporcional a la carga vertical", "[tire]") {
     PacejkaCoefficients c;
     REQUIRE(lateral_force(c, 0.1, 6000.0) == Approx(2.0 * lateral_force(c, 0.1, 3000.0)));
 }
+
+TEST_CASE("Slip combinado respeta el círculo de fricción", "[tire]") {
+    PacejkaCoefficients c;
+    c.D = 1.5;
+    const double fz = 3500.0;
+    for (double k = -1.0; k <= 1.0; k += 0.05) {
+        for (double a = -1.0; a <= 1.0; a += 0.05) {
+            const TireForce f = combined_slip_force(c, k, a, fz);
+            REQUIRE(std::hypot(f.fx, f.fy) <= c.D * fz * (1.0 + 1e-9));
+        }
+    }
+}
+
+TEST_CASE("Slip combinado puro coincide con Pacejka", "[tire]") {
+    PacejkaCoefficients c;
+    const TireForce f = combined_slip_force(c, 0.1, 0.0, 4000.0);
+    REQUIRE(f.fx == Approx(4000.0 * pacejka_normalized(c, 0.1)));
+    REQUIRE(f.fy == Approx(0.0).margin(1e-9));
+}
+
+TEST_CASE("Signos del slip combinado", "[tire]") {
+    PacejkaCoefficients c;
+    REQUIRE(combined_slip_force(c, 0.1, 0.0, 3000.0).fx > 0.0);
+    REQUIRE(combined_slip_force(c, -0.1, 0.0, 3000.0).fx < 0.0);
+    REQUIRE(combined_slip_force(c, 0.0, 0.1, 3000.0).fy < 0.0);
+    REQUIRE(combined_slip_force(c, 0.0, 0.0, 3000.0).fx == 0.0);
+}

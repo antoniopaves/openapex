@@ -19,4 +19,15 @@ struct PacejkaCoefficients {
 [[nodiscard]] double lateral_force(const PacejkaCoefficients& c, double slip_angle,
                                    double normal_load) noexcept;
 
+/// Fuerzas del neumático en su propio sistema: x hacia delante, y a la izquierda.
+struct TireForce {
+    double fx = 0.0;
+    double fy = 0.0;
+};
+
+/// Fuerza con slip combinado. kappa = slip ratio, tan_alpha = tangente del slip angle.
+/// La magnitud total nunca supera D * normal_load (círculo de fricción).
+[[nodiscard]] TireForce combined_slip_force(const PacejkaCoefficients& c, double kappa,
+                                            double tan_alpha, double normal_load) noexcept;
+
 } // namespace openapex::sim
