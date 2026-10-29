@@ -1,0 +1,7 @@
+version = 1
+
+[[annotations]]
+path = ["vcpkg.json", "CMakePresets.json", ".gitignore", ".editorconfig", ".clang-format", "README.md", "CONTRIBUTING.md", "LICENSE", "bootstrap.sh"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2026 OpenApex contributors"
+SPDX-License-Identifier = "GPL-3.0-or-later"

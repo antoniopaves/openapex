@@ -1,0 +1,5 @@
+{
+  "name": "openapex",
+  "version": "0.1.0",
+  "dependencies": ["fmt", "glm", "catch2"]
+}
