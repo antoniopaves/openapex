@@ -1,7 +1,7 @@
 # OpenApex
 
 Simulador de carreras open source (GPLv3) con física de primer nivel, modding abierto y servidores libres.
-Estado: prototipo temprano (sim-core).
+Estado: prototipo temprano (sim-core) Mucho vibecoding con claude por cierto XD.
 
 ## Compilar
 
