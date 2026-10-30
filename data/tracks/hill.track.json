@@ -1,0 +1,1584 @@
+{
+  "version": 1,
+  "metadata": {
+    "name": "Hill Circuit",
+    "author": "OpenApex",
+    "description": "Circuito cerrado con desnivel de hasta 24 m y curvas peraltadas",
+    "version": 1
+  },
+  "geometry": {
+    "centerline": [
+      {
+        "x": -242.0,
+        "y": 0.0,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 0.0,
+        "banking": -0.2,
+        "surface_left": "asphalt",
+        "surface_right": "asphalt"
+      },
+      {
+        "x": -241.61,
+        "y": 6.44,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 0.06,
+        "banking": -0.2,
+        "surface_left": "asphalt",
+        "surface_right": "asphalt"
+      },
+      {
+        "x": -240.46,
+        "y": 12.85,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 0.23,
+        "banking": -0.2,
+        "surface_left": "asphalt",
+        "surface_right": "asphalt"
+      },
+      {
+        "x": -238.56,
+        "y": 19.18,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 0.52,
+        "banking": -0.2,
+        "surface_left": "asphalt",
+        "surface_right": "asphalt"
+      },
+      {
+        "x": -235.93,
+        "y": 25.39,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 0.93,
+        "banking": -0.2,
+        "surface_left": "asphalt",
+        "surface_right": "asphalt"
+      },
+      {
+        "x": -232.6,
+        "y": 31.46,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 1.44,
+        "banking": -0.2,
+        "surface_left": "asphalt",
+        "surface_right": "asphalt"
+      },
+      {
+        "x": -228.62,
+        "y": 37.35,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 2.05,
+        "banking": -0.2,
+        "surface_left": "asphalt",
+        "surface_right": "asphalt"
+      },
+      {
+        "x": -224.04,
+        "y": 43.04,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 2.76,
+        "banking": -0.2,
+        "surface_left": "asphalt",
+        "surface_right": "asphalt"
+      },
+      {
+        "x": -218.9,
+        "y": 48.51,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 3.56,
+        "banking": -0.2,
+        "surface_left": "asphalt",
+        "surface_right": "asphalt"
+      },
+      {
+        "x": -213.26,
+        "y": 53.73,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 4.43,
+        "banking": -0.197,
+        "surface_left": "asphalt",
+        "surface_right": "asphalt"
+      },
+      {
+        "x": -207.19,
+        "y": 58.7,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 5.38,
+        "banking": -0.173,
+        "surface_left": "asphalt",
+        "surface_right": "asphalt"
+      },
+      {
+        "x": -200.75,
+        "y": 63.42,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 6.39,
+        "banking": -0.151,
+        "surface_left": "asphalt",
+        "surface_right": "asphalt"
+      },
+      {
+        "x": -194.0,
+        "y": 67.87,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 7.45,
+        "banking": -0.132,
+        "surface_left": "asphalt",
+        "surface_right": "asphalt"
+      },
+      {
+        "x": -187.0,
+        "y": 72.07,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 8.56,
+        "banking": -0.115,
+        "surface_left": "asphalt",
+        "surface_right": "asphalt"
+      },
+      {
+        "x": -179.81,
+        "y": 76.02,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 9.69,
+        "banking": -0.099,
+        "surface_left": "asphalt",
+        "surface_right": "asphalt"
+      },
+      {
+        "x": -172.48,
+        "y": 79.75,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 10.84,
+        "banking": -0.085,
+        "surface_left": "asphalt",
+        "surface_right": "asphalt"
+      },
+      {
+        "x": -165.07,
+        "y": 83.26,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 11.99,
+        "banking": -0.072,
+        "surface_left": "asphalt",
+        "surface_right": "asphalt"
+      },
+      {
+        "x": -157.62,
+        "y": 86.58,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 13.15,
+        "banking": -0.06,
+        "surface_left": "asphalt",
+        "surface_right": "asphalt"
+      },
+      {
+        "x": -150.15,
+        "y": 89.73,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 14.28,
+        "banking": -0.048,
+        "surface_left": "asphalt",
+        "surface_right": "asphalt"
+      },
+      {
+        "x": -142.71,
+        "y": 92.73,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 15.4,
+        "banking": -0.037,
+        "surface_left": "asphalt",
+        "surface_right": "asphalt"
+      },
+      {
+        "x": -135.3,
+        "y": 95.62,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 16.47,
+        "banking": -0.027,
+        "surface_left": "asphalt",
+        "surface_right": "asphalt"
+      },
+      {
+        "x": -127.94,
+        "y": 98.42,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 17.5,
+        "banking": -0.018,
+        "surface_left": "asphalt",
+        "surface_right": "asphalt"
+      },
+      {
+        "x": -120.64,
+        "y": 101.15,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 18.48,
+        "banking": -0.011,
+        "surface_left": "asphalt",
+        "surface_right": "asphalt"
+      },
+      {
+        "x": -113.4,
+        "y": 103.83,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 19.39,
+        "banking": -0.005,
+        "surface_left": "asphalt",
+        "surface_right": "asphalt"
+      },
+      {
+        "x": -106.19,
+        "y": 106.48,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 20.23,
+        "banking": -0.001,
+        "surface_left": "asphalt",
+        "surface_right": "asphalt"
+      },
+      {
+        "x": -99.0,
+        "y": 109.12,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 21.0,
+        "banking": -0.0,
+        "surface_left": "asphalt",
+        "surface_right": "asphalt"
+      },
+      {
+        "x": -91.81,
+        "y": 111.76,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 21.68,
+        "banking": -0.001,
+        "surface_left": "asphalt",
+        "surface_right": "asphalt"
+      },
+      {
+        "x": -84.6,
+        "y": 114.41,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 22.28,
+        "banking": -0.005,
+        "surface_left": "asphalt",
+        "surface_right": "asphalt"
+      },
+      {
+        "x": -77.33,
+        "y": 117.06,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 22.79,
+        "banking": -0.011,
+        "surface_left": "asphalt",
+        "surface_right": "asphalt"
+      },
+      {
+        "x": -69.97,
+        "y": 119.72,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 23.2,
+        "banking": -0.018,
+        "surface_left": "asphalt",
+        "surface_right": "asphalt"
+      },
+      {
+        "x": -62.48,
+        "y": 122.38,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 23.52,
+        "banking": -0.026,
+        "surface_left": "asphalt",
+        "surface_right": "asphalt"
+      },
+      {
+        "x": -54.85,
+        "y": 125.01,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 23.74,
+        "banking": -0.035,
+        "surface_left": "asphalt",
+        "surface_right": "asphalt"
+      },
+      {
+        "x": -47.03,
+        "y": 127.61,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 23.87,
+        "banking": -0.044,
+        "surface_left": "asphalt",
+        "surface_right": "asphalt"
+      },
+      {
+        "x": -39.02,
+        "y": 130.15,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 23.91,
+        "banking": -0.052,
+        "surface_left": "asphalt",
+        "surface_right": "asphalt"
+      },
+      {
+        "x": -30.77,
+        "y": 132.6,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 23.85,
+        "banking": -0.06,
+        "surface_left": "asphalt",
+        "surface_right": "asphalt"
+      },
+      {
+        "x": -22.29,
+        "y": 134.93,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 23.71,
+        "banking": -0.067,
+        "surface_left": "asphalt",
+        "surface_right": "kerb"
+      },
+      {
+        "x": -13.56,
+        "y": 137.11,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 23.48,
+        "banking": -0.073,
+        "surface_left": "asphalt",
+        "surface_right": "kerb"
+      },
+      {
+        "x": -4.58,
+        "y": 139.09,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 23.18,
+        "banking": -0.078,
+        "surface_left": "asphalt",
+        "surface_right": "kerb"
+      },
+      {
+        "x": 4.64,
+        "y": 140.85,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 22.8,
+        "banking": -0.083,
+        "surface_left": "asphalt",
+        "surface_right": "kerb"
+      },
+      {
+        "x": 14.07,
+        "y": 142.34,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 22.36,
+        "banking": -0.088,
+        "surface_left": "asphalt",
+        "surface_right": "kerb"
+      },
+      {
+        "x": 23.71,
+        "y": 143.54,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 21.85,
+        "banking": -0.092,
+        "surface_left": "asphalt",
+        "surface_right": "kerb"
+      },
+      {
+        "x": 33.51,
+        "y": 144.4,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 21.3,
+        "banking": -0.096,
+        "surface_left": "asphalt",
+        "surface_right": "kerb"
+      },
+      {
+        "x": 43.43,
+        "y": 144.89,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 20.69,
+        "banking": -0.099,
+        "surface_left": "asphalt",
+        "surface_right": "kerb"
+      },
+      {
+        "x": 53.44,
+        "y": 144.99,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 20.04,
+        "banking": -0.104,
+        "surface_left": "asphalt",
+        "surface_right": "kerb"
+      },
+      {
+        "x": 63.48,
+        "y": 144.67,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 19.37,
+        "banking": -0.108,
+        "surface_left": "asphalt",
+        "surface_right": "kerb"
+      },
+      {
+        "x": 73.48,
+        "y": 143.92,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 18.66,
+        "banking": -0.113,
+        "surface_left": "asphalt",
+        "surface_right": "asphalt"
+      },
+      {
+        "x": 83.41,
+        "y": 142.72,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 17.94,
+        "banking": -0.119,
+        "surface_left": "asphalt",
+        "surface_right": "asphalt"
+      },
+      {
+        "x": 93.18,
+        "y": 141.06,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 17.21,
+        "banking": -0.126,
+        "surface_left": "asphalt",
+        "surface_right": "asphalt"
+      },
+      {
+        "x": 102.74,
+        "y": 138.95,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 16.47,
+        "banking": -0.134,
+        "surface_left": "asphalt",
+        "surface_right": "asphalt"
+      },
+      {
+        "x": 112.04,
+        "y": 136.38,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 15.73,
+        "banking": -0.142,
+        "surface_left": "asphalt",
+        "surface_right": "asphalt"
+      },
+      {
+        "x": 121.0,
+        "y": 133.37,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 15.0,
+        "banking": -0.152,
+        "surface_left": "asphalt",
+        "surface_right": "asphalt"
+      },
+      {
+        "x": 129.58,
+        "y": 129.93,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 14.28,
+        "banking": -0.163,
+        "surface_left": "asphalt",
+        "surface_right": "asphalt"
+      },
+      {
+        "x": 137.72,
+        "y": 126.1,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 13.58,
+        "banking": -0.176,
+        "surface_left": "asphalt",
+        "surface_right": "asphalt"
+      },
+      {
+        "x": 145.38,
+        "y": 121.88,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 12.9,
+        "banking": -0.189,
+        "surface_left": "asphalt",
+        "surface_right": "asphalt"
+      },
+      {
+        "x": 152.52,
+        "y": 117.32,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 12.24,
+        "banking": -0.2,
+        "surface_left": "asphalt",
+        "surface_right": "asphalt"
+      },
+      {
+        "x": 159.12,
+        "y": 112.46,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 11.62,
+        "banking": -0.2,
+        "surface_left": "asphalt",
+        "surface_right": "asphalt"
+      },
+      {
+        "x": 165.15,
+        "y": 107.32,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 11.02,
+        "banking": -0.2,
+        "surface_left": "asphalt",
+        "surface_right": "asphalt"
+      },
+      {
+        "x": 170.6,
+        "y": 101.95,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 10.46,
+        "banking": -0.2,
+        "surface_left": "asphalt",
+        "surface_right": "asphalt"
+      },
+      {
+        "x": 175.46,
+        "y": 96.38,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 9.93,
+        "banking": -0.2,
+        "surface_left": "asphalt",
+        "surface_right": "asphalt"
+      },
+      {
+        "x": 179.75,
+        "y": 90.66,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 9.44,
+        "banking": -0.2,
+        "surface_left": "asphalt",
+        "surface_right": "asphalt"
+      },
+      {
+        "x": 183.48,
+        "y": 84.83,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 8.98,
+        "banking": -0.2,
+        "surface_left": "asphalt",
+        "surface_right": "asphalt"
+      },
+      {
+        "x": 186.68,
+        "y": 78.93,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 8.56,
+        "banking": -0.2,
+        "surface_left": "asphalt",
+        "surface_right": "asphalt"
+      },
+      {
+        "x": 189.36,
+        "y": 72.98,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 8.18,
+        "banking": -0.2,
+        "surface_left": "asphalt",
+        "surface_right": "asphalt"
+      },
+      {
+        "x": 191.58,
+        "y": 67.02,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 7.83,
+        "banking": -0.2,
+        "surface_left": "asphalt",
+        "surface_right": "asphalt"
+      },
+      {
+        "x": 193.36,
+        "y": 61.08,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 7.52,
+        "banking": -0.2,
+        "surface_left": "asphalt",
+        "surface_right": "asphalt"
+      },
+      {
+        "x": 194.77,
+        "y": 55.18,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 7.24,
+        "banking": -0.2,
+        "surface_left": "asphalt",
+        "surface_right": "asphalt"
+      },
+      {
+        "x": 195.84,
+        "y": 49.34,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 6.99,
+        "banking": -0.194,
+        "surface_left": "asphalt",
+        "surface_right": "asphalt"
+      },
+      {
+        "x": 196.63,
+        "y": 43.57,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 6.77,
+        "banking": -0.167,
+        "surface_left": "asphalt",
+        "surface_right": "asphalt"
+      },
+      {
+        "x": 197.19,
+        "y": 37.89,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 6.58,
+        "banking": -0.139,
+        "surface_left": "asphalt",
+        "surface_right": "asphalt"
+      },
+      {
+        "x": 197.55,
+        "y": 32.28,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 6.42,
+        "banking": -0.11,
+        "surface_left": "asphalt",
+        "surface_right": "asphalt"
+      },
+      {
+        "x": 197.78,
+        "y": 26.75,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 6.29,
+        "banking": -0.082,
+        "surface_left": "asphalt",
+        "surface_right": "asphalt"
+      },
+      {
+        "x": 197.91,
+        "y": 21.3,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 6.19,
+        "banking": -0.055,
+        "surface_left": "asphalt",
+        "surface_right": "asphalt"
+      },
+      {
+        "x": 197.97,
+        "y": 15.92,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 6.1,
+        "banking": -0.033,
+        "surface_left": "asphalt",
+        "surface_right": "asphalt"
+      },
+      {
+        "x": 197.99,
+        "y": 10.58,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 6.05,
+        "banking": -0.015,
+        "surface_left": "asphalt",
+        "surface_right": "asphalt"
+      },
+      {
+        "x": 198.0,
+        "y": 5.28,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 6.01,
+        "banking": -0.004,
+        "surface_left": "asphalt",
+        "surface_right": "asphalt"
+      },
+      {
+        "x": 198.0,
+        "y": 0.0,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 6.0,
+        "banking": -0.001,
+        "surface_left": "asphalt",
+        "surface_right": "asphalt"
+      },
+      {
+        "x": 198.0,
+        "y": -5.28,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 6.01,
+        "banking": -0.004,
+        "surface_left": "asphalt",
+        "surface_right": "asphalt"
+      },
+      {
+        "x": 197.99,
+        "y": -10.58,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 6.05,
+        "banking": -0.015,
+        "surface_left": "asphalt",
+        "surface_right": "asphalt"
+      },
+      {
+        "x": 197.97,
+        "y": -15.92,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 6.1,
+        "banking": -0.033,
+        "surface_left": "asphalt",
+        "surface_right": "asphalt"
+      },
+      {
+        "x": 197.91,
+        "y": -21.3,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 6.19,
+        "banking": -0.055,
+        "surface_left": "asphalt",
+        "surface_right": "asphalt"
+      },
+      {
+        "x": 197.78,
+        "y": -26.75,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 6.29,
+        "banking": -0.082,
+        "surface_left": "asphalt",
+        "surface_right": "asphalt"
+      },
+      {
+        "x": 197.55,
+        "y": -32.28,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 6.42,
+        "banking": -0.11,
+        "surface_left": "asphalt",
+        "surface_right": "asphalt"
+      },
+      {
+        "x": 197.19,
+        "y": -37.89,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 6.58,
+        "banking": -0.139,
+        "surface_left": "asphalt",
+        "surface_right": "asphalt"
+      },
+      {
+        "x": 196.63,
+        "y": -43.57,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 6.77,
+        "banking": -0.167,
+        "surface_left": "asphalt",
+        "surface_right": "asphalt"
+      },
+      {
+        "x": 195.84,
+        "y": -49.34,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 6.99,
+        "banking": -0.194,
+        "surface_left": "asphalt",
+        "surface_right": "asphalt"
+      },
+      {
+        "x": 194.77,
+        "y": -55.18,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 7.24,
+        "banking": -0.2,
+        "surface_left": "asphalt",
+        "surface_right": "asphalt"
+      },
+      {
+        "x": 193.36,
+        "y": -61.08,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 7.52,
+        "banking": -0.2,
+        "surface_left": "asphalt",
+        "surface_right": "asphalt"
+      },
+      {
+        "x": 191.58,
+        "y": -67.02,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 7.83,
+        "banking": -0.2,
+        "surface_left": "asphalt",
+        "surface_right": "asphalt"
+      },
+      {
+        "x": 189.36,
+        "y": -72.98,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 8.18,
+        "banking": -0.2,
+        "surface_left": "asphalt",
+        "surface_right": "asphalt"
+      },
+      {
+        "x": 186.68,
+        "y": -78.93,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 8.56,
+        "banking": -0.2,
+        "surface_left": "asphalt",
+        "surface_right": "asphalt"
+      },
+      {
+        "x": 183.48,
+        "y": -84.83,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 8.98,
+        "banking": -0.2,
+        "surface_left": "asphalt",
+        "surface_right": "asphalt"
+      },
+      {
+        "x": 179.75,
+        "y": -90.66,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 9.44,
+        "banking": -0.2,
+        "surface_left": "asphalt",
+        "surface_right": "asphalt"
+      },
+      {
+        "x": 175.46,
+        "y": -96.38,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 9.93,
+        "banking": -0.2,
+        "surface_left": "asphalt",
+        "surface_right": "asphalt"
+      },
+      {
+        "x": 170.6,
+        "y": -101.95,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 10.46,
+        "banking": -0.2,
+        "surface_left": "asphalt",
+        "surface_right": "asphalt"
+      },
+      {
+        "x": 165.15,
+        "y": -107.32,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 11.02,
+        "banking": -0.2,
+        "surface_left": "asphalt",
+        "surface_right": "asphalt"
+      },
+      {
+        "x": 159.12,
+        "y": -112.46,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 11.62,
+        "banking": -0.2,
+        "surface_left": "asphalt",
+        "surface_right": "asphalt"
+      },
+      {
+        "x": 152.52,
+        "y": -117.32,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 12.24,
+        "banking": -0.2,
+        "surface_left": "asphalt",
+        "surface_right": "asphalt"
+      },
+      {
+        "x": 145.38,
+        "y": -121.88,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 12.9,
+        "banking": -0.189,
+        "surface_left": "asphalt",
+        "surface_right": "asphalt"
+      },
+      {
+        "x": 137.72,
+        "y": -126.1,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 13.58,
+        "banking": -0.176,
+        "surface_left": "asphalt",
+        "surface_right": "asphalt"
+      },
+      {
+        "x": 129.58,
+        "y": -129.93,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 14.28,
+        "banking": -0.163,
+        "surface_left": "asphalt",
+        "surface_right": "asphalt"
+      },
+      {
+        "x": 121.0,
+        "y": -133.37,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 15.0,
+        "banking": -0.152,
+        "surface_left": "asphalt",
+        "surface_right": "kerb"
+      },
+      {
+        "x": 112.04,
+        "y": -136.38,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 15.73,
+        "banking": -0.142,
+        "surface_left": "asphalt",
+        "surface_right": "kerb"
+      },
+      {
+        "x": 102.74,
+        "y": -138.95,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 16.47,
+        "banking": -0.134,
+        "surface_left": "asphalt",
+        "surface_right": "kerb"
+      },
+      {
+        "x": 93.18,
+        "y": -141.06,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 17.21,
+        "banking": -0.126,
+        "surface_left": "asphalt",
+        "surface_right": "kerb"
+      },
+      {
+        "x": 83.41,
+        "y": -142.72,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 17.94,
+        "banking": -0.119,
+        "surface_left": "asphalt",
+        "surface_right": "kerb"
+      },
+      {
+        "x": 73.48,
+        "y": -143.92,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 18.66,
+        "banking": -0.113,
+        "surface_left": "asphalt",
+        "surface_right": "kerb"
+      },
+      {
+        "x": 63.48,
+        "y": -144.67,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 19.37,
+        "banking": -0.108,
+        "surface_left": "asphalt",
+        "surface_right": "kerb"
+      },
+      {
+        "x": 53.44,
+        "y": -144.99,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 20.04,
+        "banking": -0.104,
+        "surface_left": "asphalt",
+        "surface_right": "kerb"
+      },
+      {
+        "x": 43.43,
+        "y": -144.89,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 20.69,
+        "banking": -0.099,
+        "surface_left": "asphalt",
+        "surface_right": "kerb"
+      },
+      {
+        "x": 33.51,
+        "y": -144.4,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 21.3,
+        "banking": -0.096,
+        "surface_left": "asphalt",
+        "surface_right": "kerb"
+      },
+      {
+        "x": 23.71,
+        "y": -143.54,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 21.85,
+        "banking": -0.092,
+        "surface_left": "asphalt",
+        "surface_right": "asphalt"
+      },
+      {
+        "x": 14.07,
+        "y": -142.34,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 22.36,
+        "banking": -0.088,
+        "surface_left": "asphalt",
+        "surface_right": "asphalt"
+      },
+      {
+        "x": 4.64,
+        "y": -140.85,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 22.8,
+        "banking": -0.083,
+        "surface_left": "asphalt",
+        "surface_right": "asphalt"
+      },
+      {
+        "x": -4.58,
+        "y": -139.09,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 23.18,
+        "banking": -0.078,
+        "surface_left": "asphalt",
+        "surface_right": "asphalt"
+      },
+      {
+        "x": -13.56,
+        "y": -137.11,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 23.48,
+        "banking": -0.073,
+        "surface_left": "asphalt",
+        "surface_right": "asphalt"
+      },
+      {
+        "x": -22.29,
+        "y": -134.93,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 23.71,
+        "banking": -0.067,
+        "surface_left": "asphalt",
+        "surface_right": "asphalt"
+      },
+      {
+        "x": -30.77,
+        "y": -132.6,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 23.85,
+        "banking": -0.06,
+        "surface_left": "asphalt",
+        "surface_right": "asphalt"
+      },
+      {
+        "x": -39.02,
+        "y": -130.15,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 23.91,
+        "banking": -0.052,
+        "surface_left": "asphalt",
+        "surface_right": "asphalt"
+      },
+      {
+        "x": -47.03,
+        "y": -127.61,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 23.87,
+        "banking": -0.044,
+        "surface_left": "asphalt",
+        "surface_right": "asphalt"
+      },
+      {
+        "x": -54.85,
+        "y": -125.01,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 23.74,
+        "banking": -0.035,
+        "surface_left": "asphalt",
+        "surface_right": "asphalt"
+      },
+      {
+        "x": -62.48,
+        "y": -122.38,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 23.52,
+        "banking": -0.026,
+        "surface_left": "asphalt",
+        "surface_right": "asphalt"
+      },
+      {
+        "x": -69.97,
+        "y": -119.72,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 23.2,
+        "banking": -0.018,
+        "surface_left": "asphalt",
+        "surface_right": "asphalt"
+      },
+      {
+        "x": -77.33,
+        "y": -117.06,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 22.79,
+        "banking": -0.011,
+        "surface_left": "asphalt",
+        "surface_right": "asphalt"
+      },
+      {
+        "x": -84.6,
+        "y": -114.41,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 22.28,
+        "banking": -0.005,
+        "surface_left": "asphalt",
+        "surface_right": "asphalt"
+      },
+      {
+        "x": -91.81,
+        "y": -111.76,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 21.68,
+        "banking": -0.001,
+        "surface_left": "asphalt",
+        "surface_right": "asphalt"
+      },
+      {
+        "x": -99.0,
+        "y": -109.12,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 21.0,
+        "banking": -0.0,
+        "surface_left": "asphalt",
+        "surface_right": "asphalt"
+      },
+      {
+        "x": -106.19,
+        "y": -106.48,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 20.23,
+        "banking": -0.001,
+        "surface_left": "asphalt",
+        "surface_right": "asphalt"
+      },
+      {
+        "x": -113.4,
+        "y": -103.83,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 19.39,
+        "banking": -0.005,
+        "surface_left": "asphalt",
+        "surface_right": "asphalt"
+      },
+      {
+        "x": -120.64,
+        "y": -101.15,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 18.48,
+        "banking": -0.011,
+        "surface_left": "asphalt",
+        "surface_right": "asphalt"
+      },
+      {
+        "x": -127.94,
+        "y": -98.42,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 17.5,
+        "banking": -0.018,
+        "surface_left": "asphalt",
+        "surface_right": "asphalt"
+      },
+      {
+        "x": -135.3,
+        "y": -95.62,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 16.47,
+        "banking": -0.027,
+        "surface_left": "asphalt",
+        "surface_right": "asphalt"
+      },
+      {
+        "x": -142.71,
+        "y": -92.73,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 15.4,
+        "banking": -0.037,
+        "surface_left": "asphalt",
+        "surface_right": "asphalt"
+      },
+      {
+        "x": -150.15,
+        "y": -89.73,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 14.28,
+        "banking": -0.048,
+        "surface_left": "asphalt",
+        "surface_right": "asphalt"
+      },
+      {
+        "x": -157.62,
+        "y": -86.58,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 13.15,
+        "banking": -0.06,
+        "surface_left": "asphalt",
+        "surface_right": "asphalt"
+      },
+      {
+        "x": -165.07,
+        "y": -83.26,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 11.99,
+        "banking": -0.072,
+        "surface_left": "asphalt",
+        "surface_right": "asphalt"
+      },
+      {
+        "x": -172.48,
+        "y": -79.75,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 10.84,
+        "banking": -0.085,
+        "surface_left": "asphalt",
+        "surface_right": "asphalt"
+      },
+      {
+        "x": -179.81,
+        "y": -76.02,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 9.69,
+        "banking": -0.099,
+        "surface_left": "asphalt",
+        "surface_right": "asphalt"
+      },
+      {
+        "x": -187.0,
+        "y": -72.07,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 8.56,
+        "banking": -0.115,
+        "surface_left": "asphalt",
+        "surface_right": "asphalt"
+      },
+      {
+        "x": -194.0,
+        "y": -67.87,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 7.45,
+        "banking": -0.132,
+        "surface_left": "asphalt",
+        "surface_right": "asphalt"
+      },
+      {
+        "x": -200.75,
+        "y": -63.42,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 6.39,
+        "banking": -0.151,
+        "surface_left": "asphalt",
+        "surface_right": "asphalt"
+      },
+      {
+        "x": -207.19,
+        "y": -58.7,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 5.38,
+        "banking": -0.173,
+        "surface_left": "asphalt",
+        "surface_right": "asphalt"
+      },
+      {
+        "x": -213.26,
+        "y": -53.73,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 4.43,
+        "banking": -0.197,
+        "surface_left": "asphalt",
+        "surface_right": "asphalt"
+      },
+      {
+        "x": -218.9,
+        "y": -48.51,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 3.56,
+        "banking": -0.2,
+        "surface_left": "asphalt",
+        "surface_right": "asphalt"
+      },
+      {
+        "x": -224.04,
+        "y": -43.04,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 2.76,
+        "banking": -0.2,
+        "surface_left": "asphalt",
+        "surface_right": "asphalt"
+      },
+      {
+        "x": -228.62,
+        "y": -37.35,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 2.05,
+        "banking": -0.2,
+        "surface_left": "asphalt",
+        "surface_right": "asphalt"
+      },
+      {
+        "x": -232.6,
+        "y": -31.46,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 1.44,
+        "banking": -0.2,
+        "surface_left": "asphalt",
+        "surface_right": "asphalt"
+      },
+      {
+        "x": -235.93,
+        "y": -25.39,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 0.93,
+        "banking": -0.2,
+        "surface_left": "asphalt",
+        "surface_right": "asphalt"
+      },
+      {
+        "x": -238.56,
+        "y": -19.18,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 0.52,
+        "banking": -0.2,
+        "surface_left": "asphalt",
+        "surface_right": "asphalt"
+      },
+      {
+        "x": -240.46,
+        "y": -12.85,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 0.23,
+        "banking": -0.2,
+        "surface_left": "asphalt",
+        "surface_right": "asphalt"
+      },
+      {
+        "x": -241.61,
+        "y": -6.44,
+        "width": 14.0,
+        "kerb_width": 1.5,
+        "elevation": 0.06,
+        "banking": -0.2,
+        "surface_left": "asphalt",
+        "surface_right": "asphalt"
+      }
+    ]
+  },
+  "surfaces": [
+    {
+      "start": 0,
+      "end": 300,
+      "left": "asphalt",
+      "right": "asphalt"
+    },
+    {
+      "start": 300,
+      "end": 360,
+      "left": "asphalt",
+      "right": "kerb"
+    },
+    {
+      "start": 360,
+      "end": 420,
+      "left": "asphalt",
+      "right": "asphalt"
+    },
+    {
+      "start": 420,
+      "end": 480,
+      "left": "asphalt",
+      "right": "kerb"
+    },
+    {
+      "start": 480,
+      "end": 540,
+      "left": "asphalt",
+      "right": "asphalt"
+    }
+  ],
+  "objects": [
+    {
+      "type": "cone",
+      "position": {
+        "x": -205,
+        "y": 5
+      },
+      "rotation": 0.0,
+      "scale": 1.0
+    },
+    {
+      "type": "cone",
+      "position": {
+        "x": -205,
+        "y": -5
+      },
+      "rotation": 0.0,
+      "scale": 1.0
+    },
+    {
+      "type": "grandstand",
+      "position": {
+        "x": 0,
+        "y": 190
+      },
+      "rotation": 3.14,
+      "scale": 2.0
+    }
+  ],
+  "start_position": {
+    "x": -242.0,
+    "y": 0.0,
+    "heading": 1.5708
+  },
+  "pit_lane": {
+    "entry": 500,
+    "exit": 550,
+    "speed_limit": 80
+  }
+}

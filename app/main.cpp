@@ -10,6 +10,7 @@
 #include <cmath>
 #include <cstddef>
 #include <cstdio>
+#include <cstring>
 #include <vector>
 
 using namespace openapex::sim;
@@ -50,6 +51,17 @@ void line(SDL_Renderer* r, const Camera& cam, int w, int h, double x0, double y0
 
 // ---------------------------------------------------------------- pista
 
+// Carga una pista desde archivo, con fallback al demo si falla
+Track load_track_or_demo(const std::string& path) {
+    try {
+        return Track::load_from_file(path);
+    } catch (const std::exception& e) {
+        std::fprintf(stderr, "Warning: Failed to load track from %s: %s\n", path.c_str(), e.what());
+        std::fprintf(stderr, "Falling back to demo track\n");
+        return Track::make_demo();
+    }
+}
+
 struct TrackEdges {
     std::vector<Vec2> left;
     std::vector<Vec2> right;
@@ -61,8 +73,8 @@ TrackEdges build_edges(const Track& track) {
     TrackEdges e;
     const auto& c = track.centerline();
     const std::size_t n = c.size();
-    const double hw = 0.5 * track.width();
-    const double kw = hw + track.kerb_width();
+    const double hw = 0.5 * track.width_at(i);
+    const double kw = hw + track.kerb_width_at(i);
     for (std::size_t i = 0; i < n; ++i) {
         const Vec2& prev = c[(i + n - 1) % n];
         const Vec2& next = c[(i + 1) % n];
@@ -261,7 +273,7 @@ void draw_graph(SDL_Renderer* r, float x, float y, float width, float height,
         }
         SDL_RenderLines(r, pts.data(), static_cast<int>(pts.size()));
         SDL_RenderDebugText(r, label_x, y - 12.0f, ch.label);
-        label_x += 8.0f * (static_cast<float>(std::char_traits<char>::length(ch.label)) + 2.0f);
+        label_x += 8.0f * (static_cast<float>(std::strlen(ch.label)) + 2.0f);
     }
 }
 
@@ -343,7 +355,8 @@ int main() {
     }
     SDL_SetRenderVSync(renderer, 1);
 
-    const Track track = Track::make_demo();
+    // Cargar pista desde archivo (con fallback a demo)
+    const Track track = load_track_or_demo("data/tracks/demo.track.json");
     const TrackEdges edges = build_edges(track);
     const VehicleParams params;
     VehicleState state;
