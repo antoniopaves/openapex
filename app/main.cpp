@@ -73,9 +73,9 @@ TrackEdges build_edges(const Track& track) {
     TrackEdges e;
     const auto& c = track.centerline();
     const std::size_t n = c.size();
-    const double hw = 0.5 * track.width_at(i);
-    const double kw = hw + track.kerb_width_at(i);
     for (std::size_t i = 0; i < n; ++i) {
+        const double hw = 0.5 * track.width_at(i);
+        const double kw = hw + track.kerb_width_at(i);
         const Vec2& prev = c[(i + n - 1) % n];
         const Vec2& next = c[(i + 1) % n];
         const double dx = next.x - prev.x;
@@ -358,7 +358,7 @@ int main() {
     // Cargar pista desde archivo (con fallback a demo)
     const Track track = load_track_or_demo("data/tracks/demo.track.json");
     const TrackEdges edges = build_edges(track);
-    const VehicleParams params;
+    VehicleParams params;
     VehicleState state;
     VehicleInput input;
     Camera cam;
@@ -396,6 +396,15 @@ int main() {
                 if (e.key.key == SDLK_E) shift_gear(params, state, +1);
                 if (e.key.key == SDLK_Q) shift_gear(params, state, -1);
                 if (e.key.key == SDLK_T) state.auto_shift = !state.auto_shift;
+                // ABS/TC/LSD toggles
+                if (e.key.key == SDLK_A) params.abs_enabled = !params.abs_enabled;
+                if (e.key.key == SDLK_C) params.tc_enabled = !params.tc_enabled;
+                if (e.key.key == SDLK_D) {
+                    using DT = VehicleParams::DiffType;
+                    params.diff_type = (params.diff_type == DT::Open) ? DT::Viscous :
+                                       (params.diff_type == DT::Viscous) ? DT::Clutch :
+                                       (params.diff_type == DT::Clutch) ? DT::Torsen : DT::Open;
+                }
             }
         }
 
@@ -479,6 +488,20 @@ int main() {
         SDL_RenderDebugTextFormat(renderer, 10.0f, 66.0f, "Vuelta %d   Actual %s", laps + 1, cur);
         SDL_RenderDebugTextFormat(renderer, 10.0f, 78.0f, "Ultima %s   Mejor %s", lst, bst);
 
+        // ABS/TC/LSD telemetría
+        const char* abs_str = params.abs_enabled ? "ON" : "OFF";
+        const char* tc_str = params.tc_enabled ? "ON" : "OFF";
+        const char* lsd_str[] = {"Open", "Viscous", "Clutch", "Torsen"};
+        const char* lsd_name = lsd_str[static_cast<int>(params.diff_type)];
+        SDL_RenderDebugTextFormat(renderer, 10.0f, 94.0f,
+            "ABS: %s [%c%c%c%c]   TC: %s   LSD: %s (%.0f Nm)",
+            abs_str,
+            state.abs_active[0] ? 'X' : '.',
+            state.abs_active[1] ? 'X' : '.',
+            state.abs_active[2] ? 'X' : '.',
+            state.abs_active[3] ? 'X' : '.',
+            tc_str, lsd_name, state.diff_lock_torque);
+
         const float panel_x = static_cast<float>(w) - 190.0f;
         draw_gg(renderer, panel_x, 20.0f, 170.0f, trail);
 
@@ -495,7 +518,7 @@ int main() {
         draw_graph(renderer, 10.0f, static_cast<float>(h) - 170.0f, 600.0f, 130.0f, history);
         SDL_SetRenderDrawColor(renderer, 240, 240, 240, 255);
         SDL_RenderDebugText(renderer, 10.0f, static_cast<float>(h) - 20.0f,
-                            "W/S acelerar-frenar  A/D girar  E/Q marcha  T auto/manual  R reiniciar  Rueda zoom  Esc salir");
+                            "W/S acelerar-frenar  A/D girar  E/Q marcha  T auto/manual  R reiniciar  A ABS  C TC  D LSD  Rueda zoom  Esc salir");
         SDL_RenderPresent(renderer);
     }
 

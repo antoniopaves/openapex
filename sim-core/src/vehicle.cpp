@@ -73,6 +73,9 @@ void init_rolling(const VehicleParams& p, VehicleState& s, double speed) noexcep
     s.gear = gear;
     s.shift_timer = 0.0;
     s.engine_rpm = std::max(p.idle_rpm, wheel_rad_s * total_gear_ratio(p, gear) * kRadPerSecToRpm);
+
+    // Inicializar presión de freno ABS
+    s.brake_pressure = {1.0, 1.0, 1.0, 1.0};
 }
 void step_vehicle(const VehicleParams& p, VehicleState& s, const VehicleInput& in, double dt,
                   const std::array<double, 4>& grip) noexcept {
@@ -117,6 +120,90 @@ void step_vehicle(const VehicleParams& p, VehicleState& s, const VehicleInput& i
     double total_fy = 0.0;
     double total_mz = 0.0;
 
+    // ABS: usar presión de freno modulada persistente (inicializar si es primera vez)
+    // brake_pressure ya está en VehicleState y persiste entre steps
+
+    // TC: calcular multiplicador de torque al inicio del step usando slip del frame anterior
+    // Esto garantiza simetría entre ambas ruedas traseras
+    double tc_torque_multiplier = 1.0;
+    if (p.tc_enabled && throttle > 0.0) {
+        const double rear_slip_rl = std::max(0.0, s.wheel[2].slip_ratio);
+        const double rear_slip_rr = std::max(0.0, s.wheel[3].slip_ratio);
+        const double max_rear_slip = std::max(rear_slip_rl, rear_slip_rr);
+        if (max_rear_slip > p.tc_slip_threshold) {
+            const double excess = (max_rear_slip - p.tc_slip_threshold) / p.tc_slip_threshold;
+            // Reducción suave limitada por rate
+            const double reduction = std::min(1.0, excess * p.tc_torque_reduction_rate * dt);
+            tc_torque_multiplier = std::max(0.0, 1.0 - reduction);
+            s.tc_active = true;
+        } else {
+            s.tc_active = false;
+        }
+    } else {
+        s.tc_active = false;
+    }
+
+    // LSD: calcular torque de bloqueo y reparto L/R
+    // Ruedas traseras: índice 2 = izquierda (y > 0), índice 3 = derecha (y < 0)
+    double lsd_lock_torque = 0.0;
+    double drive_torque_rl = 0.5 * axle_torque * tc_torque_multiplier; // rear left
+    double drive_torque_rr = 0.5 * axle_torque * tc_torque_multiplier; // rear right
+
+    if (p.diff_type != VehicleParams::DiffType::Open && axle_torque != 0.0) {
+        const bool on_power = axle_torque > 0.0;
+        const double lock_ratio = on_power ? p.diff_lock_power : p.diff_lock_coast;
+        const double ramp_angle_deg = on_power ? p.diff_ramp_angle_power : p.diff_ramp_angle_coast;
+        const double ramp_angle_rad = ramp_angle_deg * kPi / 180.0;
+
+        switch (p.diff_type) {
+            case VehicleParams::DiffType::Clutch: {
+                // Clutch-type LSD: T_lock_max = preload + lock_ratio * T_input * tan(ramp_angle)
+                // Torque de bloqueo real proporcional a diferencia de velocidad, limitado por T_lock_max
+                const double speed_diff = std::abs(s.wheel[2].omega - s.wheel[3].omega);
+                const double lsd_capacity = p.diff_preload
+                                          + lock_ratio * std::abs(axle_torque) * std::tan(ramp_angle_rad)
+                                          * static_cast<double>(p.diff_clutch_packs);
+                // Rigidez del diferencial (Nm/rad/s) - alta para bloquear rápido
+                const double lsd_stiffness = 200.0;
+                lsd_lock_torque = std::min(lsd_stiffness * speed_diff, lsd_capacity);
+                break;
+            }
+            case VehicleParams::DiffType::Viscous: {
+                // Viscous LSD: T_lock = viscous_coeff * speed_diff
+                const double speed_diff = std::abs(s.wheel[2].omega - s.wheel[3].omega);
+                const double viscous_coeff = 50.0; // Nm/(rad/s)
+                lsd_lock_torque = viscous_coeff * speed_diff;
+                break;
+            }
+            case VehicleParams::DiffType::Torsen: {
+                // Torsen LSD: bias ratio basado en ángulo de rampas helicoidales
+                const double bias_ratio = 1.0 + 2.0 * std::tan(ramp_angle_rad);
+                // T_lock_max = (bias_ratio - 1) / (bias_ratio + 1) * T_input
+                const double lsd_capacity = (bias_ratio - 1.0) / (bias_ratio + 1.0) * std::abs(axle_torque);
+                // Torque real proporcional a diferencia de velocidad
+                const double speed_diff = std::abs(s.wheel[2].omega - s.wheel[3].omega);
+                const double torsen_stiffness = 300.0;
+                lsd_lock_torque = std::min(torsen_stiffness * speed_diff, lsd_capacity);
+                break;
+            }
+            default:
+                lsd_lock_torque = 0.0;
+        }
+
+        // Limitar torque de bloqueo al torque de entrada
+        lsd_lock_torque = std::min(lsd_lock_torque, std::abs(axle_torque));
+
+        // Reparto: la rueda que gira más lento recibe más torque (bloqueo)
+        // En aceleración (power): rueda exterior (más carga) tiende a girar más rápido -> darle más torque
+        // En retención (coast): rueda interior tiende a girar más rápido
+        const double sign = on_power ? 1.0 : -1.0;
+        drive_torque_rl = 0.5 * axle_torque * tc_torque_multiplier + 0.5 * sign * lsd_lock_torque;
+        drive_torque_rr = 0.5 * axle_torque * tc_torque_multiplier - 0.5 * sign * lsd_lock_torque;
+    }
+
+    // Guardar para telemetría
+    s.diff_lock_torque = lsd_lock_torque;
+
     for (std::size_t i = 0; i < wheels.size(); ++i) {
         const auto& w = wheels[i];
         auto& ws = s.wheel[i];
@@ -149,15 +236,41 @@ void step_vehicle(const VehicleParams& p, VehicleState& s, const VehicleInput& i
         const TireForce fh = combined_slip_force(tire, kappa + kSlipDelta, ws.tan_alpha, fz);
         const double dfx_dkappa = std::max(0.0, (fh.fx - f.fx) / kSlipDelta);
 
+        // ABS: modular presión de freno si slip excede threshold
+        if (p.abs_enabled && brake > 0.0) {
+            const double abs_slip = std::abs(kappa);
+            if (abs_slip > p.abs_slip_threshold) {
+                // Reducir presión proporcionalmente al exceso de slip
+                const double excess = (abs_slip - p.abs_slip_threshold) / p.abs_slip_threshold;
+                const double reduction = std::min(1.0, excess * p.abs_modulation_rate * dt);
+                s.brake_pressure[i] = std::max(0.0, s.brake_pressure[i] - reduction);
+                s.abs_active[i] = true;
+            } else {
+                // Recuperar presión gradualmente
+                s.brake_pressure[i] = std::min(1.0, s.brake_pressure[i] + p.abs_modulation_rate * dt);
+                s.abs_active[i] = false;
+            }
+        } else {
+            s.brake_pressure[i] = 1.0;
+            s.abs_active[i] = false;
+        }
+
         // Dinámica de la rueda, semi-implícita en la fuerza del neumático.
         const double inertia = p.wheel_inertia + (w.front ? 0.0 : p.driveline_inertia);
-        const double drive_torque = w.front ? 0.0 : 0.5 * axle_torque;
+        double drive_torque;
+        if (w.front) {
+            drive_torque = 0.0;
+        } else if (i == 2) { // rear left (y > 0)
+            drive_torque = drive_torque_rl;
+        } else { // i == 3, rear right (y < 0)
+            drive_torque = drive_torque_rr;
+        }
         const double denom = inertia + dt * sq(p.wheel_radius) * dfx_dkappa / slip_speed;
         double omega = ws.omega + dt * (drive_torque - p.wheel_radius * f.fx) / denom;
 
         // Freno como fricción seca: nunca invierte el giro de la rueda.
         const double bias = w.front ? p.brake_bias_front : 1.0 - p.brake_bias_front;
-        const double brake_torque = brake * p.max_brake_force * p.wheel_radius * 0.5 * bias;
+        const double brake_torque = brake * p.max_brake_force * p.wheel_radius * 0.5 * bias * s.brake_pressure[i];
         const double d_brake = dt * brake_torque / inertia;
         omega = std::abs(omega) <= d_brake ? 0.0 : omega - std::copysign(d_brake, omega);
 

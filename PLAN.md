@@ -1,275 +1,368 @@
-# OpenApex Implementation Plan
+# OpenApex - Simracing Game Development Plan
 
-## Overview
-Three major features to implement:
-1. **Track file format & loader** - Enable content creation
-2. **ABS, Traction Control, LSD** - Advanced vehicle dynamics
-3. **Vulkan Renderer** - Modern GPU rendering pipeline
+> **Vision**: A fully open-source, community-driven simracing platform with iRacing-level physics, modern Vulkan graphics, good netcode, and unlimited modding.
+>
+> **Current Status**: Phase 1 (core physics) and Phase 2 (ABS/TC/LSD/UI) complete. Phase 3 (Vulkan renderer structure) implemented but not yet rendering.
 
 ---
 
-## Phase 1: Track File Format & Loader (Priority: High)
+## 📊 Phase Overview
 
-### 1.1 Track File Format Design
-**Format**: JSON (human-readable, versionable, easy to edit)
-**Extension**: `.track.json`
-
-```json
-{
-  "version": 1,
-  "metadata": {
-    "name": "Circuit Example",
-    "author": "Track Designer",
-    "description": "A demo circuit"
-  },
-  "geometry": {
-    "centerline": [
-      {"x": -200.0, "y": 0.0, "width": 12.0, "kerb_width": 1.5, "banking": 0.0},
-      {"x": -190.0, "y": 0.0, "width": 12.0, "kerb_width": 1.5, "banking": 0.0}
-    ]
-  },
-  "surfaces": [
-    {"start": 0, "end": 100, "left": "asphalt", "right": "asphalt"},
-    {"start": 100, "end": 200, "left": "kerb", "right": "grass"}
-  ],
-  "objects": [
-    {"type": "cone", "position": {"x": 10, "y": 5}, "rotation": 0.0}
-  ],
-  "start_position": {"x": -200.0, "y": 0.0, "heading": 0.0},
-  "pit_lane": {"entry": 500, "exit": 550, "speed_limit": 80}
-}
-```
-
-### 1.2 Implementation Tasks
-
-| Task | Description | Files |
-|------|-------------|-------|
-| 1.2.1 | Add track file structs to `track.hpp` | `sim-core/include/openapex/sim/track.hpp` |
-| 1.2.2 | Implement `Track::load_from_file()` | `sim-core/src/track.cpp` |
-| 1.2.3 | Add JSON parsing (use nlohmann/json or rapidjson) | `sim-core/CMakeLists.txt`, `vcpkg.json` |
-| 1.2.4 | Add surface type per-segment support | `track.hpp`, `track.cpp` |
-| 1.2.5 | Add elevation & banking support | `track.hpp`, `track.cpp` |
-| 1.2.6 | Create track validation (closed loop, continuity) | `track.cpp` |
-| 1.2.7 | Add `Track::save_to_file()` for editor | `track.cpp` |
-| 1.2.8 | Create example track files in `data/tracks/` | `data/tracks/*.track.json` |
-| 1.2.9 | Update demo to load track from file | `app/main.cpp` |
-| 1.2.10 | Add unit tests for loader | `sim-core/tests/test_track.cpp` |
-
-### 1.3 Dependencies
-- Add `nlohmann/json` to `vcpkg.json`
-- Or use `rapidjson` (header-only, faster)
+| Phase | Focus | Status | Target |
+|-------|-------|--------|--------|
+| **0** | Foundation & Tooling | 🔄 In Progress | Week 1 |
+| **1** | First Drivable Demo | ⏳ Pending | Week 2-3 |
+| **2** | Physics Deepening | ⏳ Pending | Month 2-3 |
+| **3** | Content Pipeline & Modding | ⏳ Pending | Month 3-4 |
+| **4** | Multiplayer & Netcode | ⏳ Pending | Month 4-6 |
+| **5** | Damage & Advanced Systems | ⏳ Pending | Month 5-7 |
+| **6** | Modern Graphics | ⏳ Pending | Month 6+ |
+| **7** | Community & Governance | ⏳ Pending | Ongoing |
 
 ---
 
-## Phase 2: ABS, Traction Control & LSD (Priority: High)
+## ✅ Phase 0: Foundation & Tooling (Week 1)
 
-### 2.1 VehicleParams Extensions
-Add to `VehicleParams` struct in `vehicle.hpp`:
+### Build & CI
+- [x] CMake + vcpkg working for all targets
+- [x] sim-core library with 46 tests passing
+- [x] Vulkan renderer structure compiles
+- [ ] **GitHub Actions CI**: Linux/Windows/macOS build matrix
+- [ ] **Physics regression test**: "Car X on Track Y = laptime Z ± 0.1s" in CI
+- [ ] **Shader validation**: spirv-val in CI
+- [ ] **Static analysis**: clang-tidy + cppcheck in CI
+- [ ] **Release artifacts**: AppImage, Windows installer, macOS .app
 
-```cpp
-// ABS
-bool abs_enabled = true;
-double abs_slip_threshold = 0.15;      // Optimal slip ratio for peak braking
-double abs_modulation_rate = 10.0;     // How fast to modulate (Hz)
+### Licensing & Governance
+- [ ] Add REUSE-compliant license headers to all files
+- [ ] Choose licenses:
+  - [ ] sim-core, renderer, app → **GPLv3**
+  - [ ] net, audio, ffb, tools, mods API → **MIT/Apache-2.0**
+  - [ ] content (cars/tracks/sounds) → **CC-BY-SA 4.0**
+  - [ ] Brand (name/logo) → **Trademark**
+- [ ] Add `DCO` (Developer Certificate of Origin) - Signed-off-by commits
+- [ ] Create `CONTRIBUTING.md`, `GOVERNANCE.md`, `CODE_OF_CONDUCT.md`
+- [ ] Set up GitHub Discussions categories
 
-// Traction Control
-bool tc_enabled = true;
-double tc_slip_threshold = 0.08;       // Optimal slip ratio for acceleration
-double tc_torque_reduction_rate = 5.0; // Torque reduction speed
-
-// LSD (Limited Slip Differential)
-enum class DiffType { Open, Viscous, Clutch, Torsen };
-DiffType diff_type = DiffType::Clutch;
-double diff_preload = 50.0;           // Nm base locking torque
-double diff_lock_coast = 0.3;         // Lock ratio on coast (0-1)
-double diff_lock_power = 0.7;         // Lock ratio on power (0-1)
-double diff_ramp_angle_power = 45.0;  // Degrees
-double diff_ramp_angle_coast = 30.0;  // Degrees
-int diff_clutch_packs = 4;            // Number of clutch plates
-```
-
-### 2.2 VehicleState Extensions
-Add to `VehicleState`:
-```cpp
-std::array<bool, 4> abs_active{};
-bool tc_active = false;
-double diff_lock_torque = 0.0;
-```
-
-### 2.3 Implementation Tasks
-
-| Task | Description | Files |
-|------|-------------|-------|
-| 2.3.1 | Extend VehicleParams with ABS/TC/LSD params | `vehicle.hpp` |
-| 2.3.2 | Extend VehicleState with system states | `vehicle.hpp` |
-| 2.3.3 | Implement ABS logic in `step_vehicle()` | `vehicle.cpp` |
-| 2.3.4 | Implement TC logic (torque reduction) | `vehicle.cpp` |
-| 2.3.5 | Implement LSD torque distribution | `vehicle.cpp` |
-| 2.3.6 | Add LSD types: Viscous, Clutch, Torsen | `vehicle.cpp` |
-| 2.3.7 | Add input controls for toggling systems | `app/main.cpp` |
-| 2.3.8 | Add telemetry display for ABS/TC/LSD | `app/main.cpp` |
-| 2.3.9 | Add unit tests for each system | `sim-core/tests/test_vehicle.cpp` |
-
-### 2.4 Algorithm Details
-
-**ABS**: Monitor rear wheel slip ratios during braking. If slip > threshold, reduce brake pressure on that wheel proportionally.
-
-**TC**: Monitor rear wheel slip ratios during acceleration. If slip > threshold, reduce engine torque or apply individual rear brake.
-
-**LSD (Clutch-type)**:
-- Calculate torque bias ratio based on input torque and ramp angles
-- Distribute torque: `T_left = (T_input + T_lock) / 2`, `T_right = (T_input - T_lock) / 2`
-- `T_lock = preload + (power/coast) * T_input * tan(ramp_angle)`
-
----
-
-## Phase 3: Vulkan Renderer (Priority: Medium-High)
-
-### 3.1 Architecture
-Replace SDL3 immediate-mode rendering with Vulkan retained-mode pipeline.
-
-### 3.2 Implementation Tasks
-
-| Task | Description | Files |
-|------|-------------|-------|
-| 3.2.1 | Create `renderer/vulkan/` module structure | `renderer/vulkan/CMakeLists.txt` |
-| 3.2.2 | Add Vulkan to `vcpkg.json` | `vcpkg.json` |
-| 3.2.3 | Implement Vulkan context (instance, device, swapchain) | `renderer/vulkan/context.hpp/cpp` |
-| 3.2.4 | Create render pass & framebuffer management | `renderer/vulkan/renderpass.hpp/cpp` |
-| 3.2.5 | Implement descriptor set layout & pipeline layout | `renderer/vulkan/pipeline.hpp/cpp` |
-| 3.2.6 | Create shaders: track.vert/frag, car.vert/frag, ui.vert/frag | `renderer/vulkan/shaders/` |
-| 3.2.7 | Implement track mesh generation (triangulated strips) | `renderer/vulkan/track_renderer.hpp/cpp` |
-| 3.2.8 | Implement car model loading (glTF) | `renderer/vulkan/model.hpp/cpp` |
-| 3.2.9 | Implement camera system (view/projection matrices) | `renderer/vulkan/camera.hpp/cpp` |
-| 3.2.10 | Implement UI rendering (ImGui + Vulkan backend) | `renderer/vulkan/ui.hpp/cpp` |
-| 3.2.11 | Create main Vulkan renderer class | `renderer/vulkan/renderer.hpp/cpp` |
-| 3.2.12 | Integrate with app (replace SDL rendering) | `app/main.cpp` |
-| 3.2.13 | Add validation layers for debug builds | `renderer/vulkan/context.cpp` |
-| 3.2.14 | Implement frame timing & presentation modes | `renderer/vulkan/swapchain.cpp` |
-
-### 3.3 Shader Plan
-
-**Track Shader** (`track.vert`/`track.frag`):
-- Input: position, color, surface_type
-- Vertex: transform by MVP, pass surface_type
-- Fragment: color by surface (asphalt/kerb/grass), optional texture
-
-**Car Shader** (`car.vert`/`car.frag`):
-- Input: position, normal, UV
-- Vertex: skinning (if animated), transform
-- Fragment: PBR (albedo, metallic, roughness) or simple lit
-
-**UI Shader** (`ui.vert`/`ui.frag`):
-- Input: position, UV, color
-- Standard ImGui vertex format
-
-### 3.4 Data Flow
-```
-Simulation (60Hz) → State Buffer → Render Thread (Vulkan) → Swapchain → Display
-```
-
-### 3.5 Dependencies
-- Vulkan SDK (via vcpkg: `vulkan-headers`, `vulkan-loader`, `vulkan-validation-layers`)
-- glTF loader: `tinygltf` or `fastgltf`
-- ImGui: `imgui` + `imgui-vulkan` backend
-- glm (already present) for math
-
----
-
-## Implementation Order Recommendation
-
-### Sprint 1 (Week 1-2): Track System
-1. Add nlohmann/json dependency
-2. Design & implement track file format
-3. Create 2-3 example tracks
-4. Update app to load track from file
-
-### Sprint 2 (Week 2-3): Vehicle Dynamics
-1. Add ABS/TC/LSD params to VehicleParams
-2. Implement each system in step_vehicle
-3. Add UI toggles and telemetry
-4. Test with existing demo track
-
-### Sprint 3 (Week 3-5): Vulkan Renderer
-1. Set up Vulkan context & swapchain
-2. Basic triangle → track lines → track mesh
-3. Car model (simple box → glTF model)
-4. Camera & UI integration
-5. Polish: lighting, shadows, post-process
-
----
-
-## File Structure After Implementation
-
+### Repository Structure
 ```
 openapex/
-├── app/
-│   ├── main.cpp              # Updated for Vulkan + track loading + ABS/TC/LSD UI
-│   └── CMakeLists.txt
-├── sim-core/
-│   ├── include/openapex/sim/
-│   │   ├── track.hpp         # Extended with file I/O, surfaces, elevation
-│   │   ├── vehicle.hpp       # Extended with ABS/TC/LSD params
-│   │   └── tire.hpp
-│   ├── src/
-│   │   ├── track.cpp         # File loader, surface queries
-│   │   ├── vehicle.cpp       # ABS/TC/LSD implementation
-│   │   └── tire.cpp
-│   ├── tests/
-│   │   ├── test_track.cpp    # Track loading tests
-│   │   └── test_vehicle.cpp  # ABS/TC/LSD tests
-│   └── CMakeLists.txt
-├── renderer/
-│   └── vulkan/
-│       ├── CMakeLists.txt
-│       ├── context.hpp/cpp
-│       ├── renderer.hpp/cpp
-│       ├── track_renderer.hpp/cpp
-│       ├── car_renderer.hpp/cpp
-│       ├── ui.hpp/cpp
-│       ├── camera.hpp/cpp
-│       ├── pipeline.hpp/cpp
-│       ├── shaders/
-│       │   ├── track.vert/spv
-│       │   ├── track.frag/spv
-│       │   ├── car.vert/spv
-│       │   ├── car.frag/spv
-│       │   ├── ui.vert/spv
-│       │   └── ui.frag/spv
-│       └── model.hpp/cpp     # glTF loading
-├── data/
-│   └── tracks/
-│       ├── demo.track.json
-│       ├── monza.track.json
-│       └── spa.track.json
-├── vcpkg.json                # Updated with new deps
-└── CMakeLists.txt
+├── sim-core/           # GPLv3 - physics, vehicle, track logic
+├── renderer-vulkan/    # GPLv3 - rendering only
+├── audio/              # MIT - miniaudio + granular synthesis
+├── net/                # MIT - GNS wrapper, replication
+├── ffb/                # MIT - force feedback pipeline
+├── app/                # GPLv3 - main executable, SDL3 integration
+├── tools/              # MIT - Blender exporters, validators, track editor
+├── content/            # CC-BY-SA - cars, tracks, sounds
+├── mods/               # MIT - plugin API (Lua/WASM)
+├── .github/workflows/  # CI pipelines
+└── LICENSES/           # Per-file license mapping
 ```
 
 ---
 
-## Testing Strategy
+## 🚗 Phase 1: First Drivable Demo (Week 2-3)
 
-1. **Unit Tests**: Each system tested in isolation (Catch2)
-2. **Integration Tests**: Full simulation step with all systems active
-3. **Visual Tests**: Render test tracks, verify car physics visually
-4. **Regression Tests**: Compare lap times before/after changes
+> **Goal**: One car, one track, working FFB, ugly but drivable. Physics feel > graphics.
+
+### Vulkan Renderer Integration
+- [ ] **Compile shaders to SPIR-V**
+  ```bash
+  glslangValidator -V renderer/vulkan/shaders/track.vert -o track.vert.spv
+  glslangValidator -V renderer/vulkan/shaders/track.frag -o track.frag.spv
+  glslangValidator -V renderer/vulkan/shaders/car.vert -o car.vert.spv
+  glslangValidator -V renderer/vulkan/shaders/car.frag -o car.frag.spv
+  glslangValidator -V renderer/vulkan/shaders/ui.vert -o ui.vert.spv
+  glslangValidator -V renderer/vulkan/shaders/ui.frag -o ui.frag.spv
+  ```
+- [ ] **Hook renderer into `app/main.cpp`** - replace SDL software rendering
+- [ ] **Verify track loads** - camera follows car, correct position/orientation
+- [ ] **Frame timing** - fixed physics timestep (360Hz), interpolated render
+- [ ] **Input handling** - SDL3 keyboard + wheel support
+
+### Debug Visualization (ImGui)
+- [ ] Tire forces (Fx, Fy, Fz, slip angles, slip ratios)
+- [ ] Suspension travel, spring/damper forces
+- [ ] Aero forces, downforce/drag
+- [ ] Vehicle state: speed, RPM, gear, G-forces
+- [ ] Track surface query at contact patches
+
+### Force Feedback (Separate Thread)
+- [ ] 1kHz FFB thread architecture
+- [ ] Rack force calculation from tire alignment torque
+- [ ] Basic effects: weight transfer, curb rumble, slip vibration
+- [ ] SDL3 haptics + direct USB HID path
+
+### Content: First Car & Track
+- [ ] **Define `car.toml` schema** (see Phase 3)
+- [ ] **Define `track.json` extensions** (surface, objects, pits)
+- [ ] Create placeholder car: simple glTF box + 4 wheels
+- [ ] Create test track: flat oval with kerbs (extend demo.track.json)
+- [ ] Validate physics: steady-state cornering, brake/accel tests
 
 ---
 
-## Risks & Mitigations
+## ⚙️ Phase 2: Physics Deepening (Month 2-3)
 
-| Risk | Impact | Mitigation |
-|------|--------|------------|
-| Vulkan complexity | High | Start with minimal triangle, incrementally add features |
-| Track format changes | Medium | Version the format, maintain backward compatibility |
-| Physics stability | Medium | Small dt (1/360), clamp forces, extensive testing |
-| Performance | Low | Profile early, use RenderDoc, optimize shaders |
+### Tire Model Evolution
+- [ ] **Pacejka 2002 baseline** (current) ✅
+- [ ] **Temperature model**: core/surface temp, heat generation/conduction
+- [ ] **Pressure model**: pressure ↔ temp ↔ load sensitivity
+- [ ] **Wear model**: tread depth → grip loss, puncture risk
+- [ ] **Relaxation length**: transient slip response (critical for FFB feel)
+- [ ] **Combined slip**: proper Fx/Fy coupling (current: simplified)
+- [ ] **Validation**: Compare skidpad, sweep tests vs real data
+
+### Suspension Geometry
+- [ ] **Double wishbone kinematics**: K&C (kinematics & compliance)
+- [ ] **Pushrod/pullrod** motion ratios
+- [ ] **Non-linear dampers**: velocity-dependent, bump/rebound separate
+- [ ] **Bump stops**: progressive rate, damper blow-off
+- [ ] **Anti-roll bars**: blade vs tube, adjustable
+- [ ] **Steering**: rack ratio, Ackermann, compliance
+
+### Drivetrain
+- [ ] **Engine**: torque curve, inertia, rev limiter, throttle response
+- [ ] **Clutch**: slip model, wear, thermal fade
+- [ ] **Gearbox**: ratios, shift times, synchro model, sequential/H-pattern
+- [ ] **Differentials**: 
+  - [ ] Open (done)
+  - [ ] Viscous (done)
+  - [ ] Clutch-type LSD: preload, ramp angles, plate count (done - needs tuning)
+  - [ ] Torsen: bias ratio, preload
+- [ ] **Driveshafts**: inertia, compliance
+
+### Aerodynamics
+- [ ] **Ride-height/pitch dependent** CL/CD tables (CSV/interpolation)
+- [ ] **Front/rear aero balance** → handling tuning
+- [ ] **DRS** (if applicable)
+- [ ] **Draft/wake model**: reduced drag/downforce in slipstream
+- [ ] **Ground effect** (for relevant categories)
+
+### Track Surface
+- [ ] **OpenCRG-style** height + grip map per segment
+- [ ] **Surface types**: asphalt variants, kerbs, grass, gravel, astroturf
+- [ ] **Dynamic rubbering-in**: grip evolution during session
+- [ ] **Wet weather**: water film depth, aquaplaning model
 
 ---
 
-## Next Steps
+## 📦 Phase 3: Content Pipeline & Modding (Month 3-4)
 
-1. **Immediate**: Add nlohmann/json to vcpkg.json and implement track file loader
-2. **Short-term**: Implement ABS/TC/LSD in vehicle simulation
-3. **Long-term**: Begin Vulkan renderer prototype
+### Data Formats (Human-Readable, Schema-Validated)
+- [ ] **`car.toml` schema** - Vehicle definition
+  ```toml
+  [meta]
+  name = "Generic GT3"
+  author = "OpenApex"
+  version = 1
+  
+  [chassis]
+  mass = 1300.0
+  cog = [0.0, 0.3, 0.0]
+  inertia = [1200.0, 1800.0, 2500.0]
+  
+  [aero]
+  cl_curve = "data/aero/cl_vs_rideheight.csv"
+  cd_curve = "data/aero/cd_vs_rideheight.csv"
+  
+  [suspension.fl]
+  # Double wishbone hardpoints, spring, damper, ARB, bumpstop
+  ...
+  
+  [tire]
+  pacejka = "data/tires/gt3_slick.pacejka"
+  ...
+  
+  [drivetrain]
+  engine = "data/engines/gt3_v8.toml"
+  gearbox = "data/gearboxes/gt3_6spd.toml"
+  diff = "data/diffs/gt3_clutch.toml"
+  ```
+- [ ] **`track.json` extensions** - Surface, objects, AI lines, pits
+- [ ] **JSON Schema** for validation in CI
+
+### Blender Exporter (Python)
+- [ ] Export track mesh (GLTF) + collision mesh + surface map
+- [ ] Export car model (GLTF) + wheel bones + damage zones
+- [ ] Export collision primitives (convex hulls for tires, chassis)
+- [ ] **Validation tool**: `openapex-validate track.json` / `car.toml`
+
+### Modding API
+- [ ] **Lua scripting** (sol2) for:
+  - HUDs / dash apps
+  - Race logic (flags, penalties, pit rules)
+  - Telemetry export
+- [ ] **WASM sandbox** (wasmtime) for untrusted mods
+- [ ] **Plugin interface**: C API for native mods
+- [ ] **Mod loader**: discovery, dependency resolution, versioning
+
+### Content Creation
+- [ ] 2-3 fictional tracks (fantasy + real-world inspired)
+- [ ] 3-4 cars across categories (GT3, Formula, Touring, Street)
+- [ ] Community car/track pack template repo
+
+---
+
+## 🌐 Phase 4: Multiplayer & Netcode (Month 4-6)
+
+### Architecture
+```
+┌─────────────────┐     20-60 Hz snapshots      ┌─────────────────┐
+│    Client       │ ◄───────────────────────── │  Dedicated      │
+│  (prediction)   │   delta-compressed,        │  Server         │
+│                 │   quantized, encrypted     │  (authoritative)│
+└────────┬────────┘                            └────────┬────────┘
+         │                                              │
+         ▼                                              ▼
+   Local car @ 360Hz                            All cars @ 360Hz
+   Reconciliation                                Collision resolution
+   Remote cars: dead reckoning                   Lag compensation
+```
+
+### Implementation
+- [ ] **GameNetworkingSockets** integration (Valve, BSD license)
+- [ ] **Server**: headless sim-core, config-driven
+- [ ] **Client prediction**: local car @ 360Hz, reconcile on snapshot
+- [ ] **Remote cars**: dead reckoning + cubic spline interpolation
+- [ ] **Snapshots**: 20-60 Hz, delta compression, quantization
+- [ ] **Lag compensation**: rewind/replay for collision resolution
+- [ ] **Join-in-progress**: state transfer, warmup sync
+- [ ] **Spectator / replay** system
+
+### Security & Anti-Cheat (Basic)
+- [ ] Input validation on server
+- [ ] Physics determinism checks
+- [ ] Replay-based verification
+
+---
+
+## 💥 Phase 5: Damage & Advanced Systems (Month 5-7)
+
+### Parametric Damage (iRacing-style)
+- [ ] **Damage state per component**:
+  - Suspension: camber/toe shift, spring rate loss, damper fade
+  - Aero: downforce/drag reduction, CoP shift
+  - Engine: torque degradation, rev limiter drop, oil pressure
+  - Tires: puncture → pressure loss → Pacejka degradation
+  - Drivetrain: diff lock loss, gear engagement issues
+- [ ] **Visual deformation**: lattice/FFD per zone on body mesh
+- [ ] **Repair model**: pit stop time per damage type
+
+### Audio (miniaudio + Granular Synthesis)
+- [ ] **Engine**: granular synthesis from loop + load/RPM layers
+- [ ] **Transmission**: whine, gear clunk, shift sounds
+- [ ] **Tires**: scrub, squeal, rumble (surface-dependent)
+- [ ] **Aero**: wind noise, DRS flap
+- [ ] **Ambient**: crowd, PA, weather
+- [ ] **Occlusion/Reverb**: simple room model
+
+### Telemetry & Analysis
+- [ ] **Live telemetry** (WebSocket → browser overlay)
+- [ ] **Replay system**: deterministic playback, camera tools
+- [ ] **Data export**: CSV, MoTeC LD, iRacing IBT compatible
+
+---
+
+## 🎨 Phase 6: Modern Graphics (Month 6+)
+
+| Milestone | Techniques |
+|-----------|------------|
+| **v0.2** | Clustered forward+, cascaded shadow maps, GTAO |
+| **v0.3** | TAA, bloom, ACES tonemapping, rain/wet track shader |
+| **v0.4** | Bindless, GPU culling, mesh shaders (VK_EXT_mesh_shader) |
+| **v0.5+** | Optional RT: shadows, reflections (separate pipeline) |
+
+### Vulkan Renderer Checklist
+- [ ] **Forward+ / clustered** lighting
+- [ ] **PBR** with IBL (prefiltered env maps, BRDF LUT)
+- [ ] **CSM** for sun shadows (4 cascades, PCF/PCSS)
+- [ ] **Screen-space**: GTAO, SSR (optional), TAA
+- [ ] **Post**: bloom, lens dirt, tonemapping, color grading
+- [ ] **Weather**: rain droplets, wet track reflection, spray
+- [ ] **Time of day**: dynamic sun, sky model (Preetham/Hosek-Wilkie)
+- [ ] **VR**: OpenXR, foveated rendering, async reprojection
+- [ ] **Triple screen**: projection correction, bezel compensation
+- [ ] **GPU-driven**: culling, LOD, mesh shaders
+- [ ] **Bindless** resources (VK_EXT_descriptor_indexing)
+
+---
+
+## 👥 Phase 7: Community & Governance (Ongoing)
+
+### Infrastructure
+- [ ] **GitHub Sponsors / Open Collective** for funding
+- [ ] **Discord/Matrix** for community
+- [ ] **Documentation site**: physics model, formats, API (MkDocs/GitBook)
+- [ ] **Mod portal**: in-game browser, one-click install
+- [ ] **Server listing**: master server (open source, self-hostable)
+
+### Governance
+- [ ] **Core team** → **Steering committee** → **Foundation** (Software Freedom Conservancy?)
+- [ ] **RFC process** for major changes
+- [ ] **Release cadence**: monthly patches, quarterly minors
+- [ ] **LTS branches** for league stability
+
+### Events & Growth
+- [ ] **Community races** weekly
+- [ ] **Content bounties** (NLnet, Epic MegaGrants)
+- [ ] **League partnerships**: official server hosting
+- [ ] **Hardware vendor** partnerships (wheel bases, motion)
+
+---
+
+## 🎯 Immediate Next Actions (This Week)
+
+| Priority | Task | Owner | Notes |
+|----------|------|-------|-------|
+| 1 | Compile shaders, integrate renderer in `main.cpp` | - | Unblocks everything |
+| 2 | Add physics regression test to CI | - | Prevents regressions |
+| 3 | Define `car.toml` + `track.json` schemas | - | Needed for content |
+| 4 | Write Blender track exporter skeleton | - | Python script |
+| 5 | Publish v0.1 "ugly but drivable" demo | - | Attracts contributors |
+| 6 | Open GitHub Discussions for tire/FFB/modding | - | Community input early |
+
+---
+
+## 📝 Progress Tracking
+
+### Legend
+- ✅ Done
+- 🔄 In Progress
+- ⏳ Pending
+- ❌ Blocked
+- 💡 Idea / Needs Discussion
+
+### Current Sprint Focus
+> **Sprint 1 (Week 1-2)**: Shader compilation → Renderer integration → First frame → Physics regression CI → car.toml schema
+
+---
+
+*Last updated: 2025-XX-XX*
+*Next review: After Phase 1 demo*
+
+---
+
+## 📚 Reference Documents
+
+- [Race Car Vehicle Dynamics (Milliken)](https://www.sae.org/publications/books/content/r-146/)
+- [Tire and Vehicle Dynamics (Pacejka)](https://www.elsevier.com/books/tire-and-vehicle-dynamics/pacejka/978-0-08-097016-5)
+- [Gaffer on Games - Fix Your Timestep](https://gafferongames.com/post/fix_your_timestep/)
+- [Gaffer on Games - Networked Physics](https://gafferongames.com/post/networked_physics/)
+- [OpenCRG Track Format](https://www.opencrg.org/)
+- [GameNetworkingSockets](https://github.com/ValveSoftware/GameNetworkingSockets)
+- [miniaudio](https://github.com/mackron/miniaudio)
+- [Jolt Physics](https://github.com/jrouwe/JoltPhysics)
+
+---
+
+## 🔗 Related Issues
+
+- [ ] #1: Shader compilation pipeline
+- [ ] #2: Renderer integration in main.cpp
+- [ ] #3: car.toml schema definition
+- [ ] #4: Blender exporter
+- [ ] #5: CI physics regression
+- [ ] #6: FFB thread implementation
+- [ ] #7: Multiplayer architecture

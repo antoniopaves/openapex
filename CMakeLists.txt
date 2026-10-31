@@ -18,3 +18,4 @@ endif()
 
 add_subdirectory(sim-core)
 add_subdirectory(app)
+add_subdirectory(renderer/vulkan)

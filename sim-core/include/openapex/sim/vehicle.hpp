@@ -55,6 +55,26 @@ struct VehicleParams {
     double shift_time = 0.2;
     double upshift_rpm = 6800.0;
     double downshift_rpm = 2400.0;
+
+    // ABS
+    bool abs_enabled = true;
+    double abs_slip_threshold = 0.15;      // Optimal slip ratio for peak braking
+    double abs_modulation_rate = 10.0;     // How fast to modulate (Hz)
+
+    // Traction Control
+    bool tc_enabled = true;
+    double tc_slip_threshold = 0.08;       // Optimal slip ratio for acceleration
+    double tc_torque_reduction_rate = 5.0; // Torque reduction speed
+
+    // LSD (Limited Slip Differential)
+    enum class DiffType { Open, Viscous, Clutch, Torsen };
+    DiffType diff_type = DiffType::Open;
+    double diff_preload = 50.0;            // Nm base locking torque
+    double diff_lock_coast = 0.3;          // Lock ratio on coast (0-1)
+    double diff_lock_power = 0.7;          // Lock ratio on power (0-1)
+    double diff_ramp_angle_power = 45.0;   // Degrees
+    double diff_ramp_angle_coast = 30.0;   // Degrees
+    int diff_clutch_packs = 4;             // Number of clutch plates
 };
 
 struct WheelState {
@@ -80,6 +100,12 @@ struct VehicleState {
     double engine_rpm = 1000.0;
     double shift_timer = 0.0;
     bool auto_shift = true;
+
+    // ABS/TC/LSD states
+    std::array<bool, 4> abs_active{};
+    std::array<double, 4> brake_pressure{1.0, 1.0, 1.0, 1.0}; ///< Modulated brake pressure per wheel (persists across steps)
+    bool tc_active = false;
+    double diff_lock_torque = 0.0;
 };
 
 struct VehicleInput {

@@ -3,4 +3,8 @@
 find_package(SDL3 CONFIG REQUIRED)
 
 add_executable(openapex main.cpp)
-target_link_libraries(openapex PRIVATE openapex::sim-core SDL3::SDL3)
+target_link_libraries(openapex PRIVATE
+    openapex::sim-core
+    openapex::vulkan
+    SDL3::SDL3
+)
